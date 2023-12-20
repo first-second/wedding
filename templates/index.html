@@ -5,46 +5,83 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Upload</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap');
+
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
             margin: 0;
             padding: 0;
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-direction: column;
             height: 100vh;
+            font-family: 'Dancing Script', cursive;
+            color: #fff;
+            position: relative;
+        }
+
+        .background-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
         }
 
         h1 {
             text-align: center;
-            color: #333;
+            font-size: 3em;
+            position: relative;
+            margin-bottom: 30px;
         }
 
-        form {
-            background-color: #fff;
+        h1::before {
+            content: '#SIAN';
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ffcc00;
+            font-size: 40px;
+            font-weight: bold;
+            z-index: -1;
+            animation: glitter 1s infinite linear;
+        }
+
+        .box {
+            background-color: rgba(255, 255, 255, 0.8);
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 80%;
             max-width: 400px;
-            margin: 20px auto; /* Adjusted margin to create space from the top */
+            margin: 20px auto;
+            text-align: center;
+            color: #333;
         }
 
-        label {
+        .box p {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+
+        .box label {
             display: block;
             margin-bottom: 8px;
         }
 
-        input[type="text"],
-        input[type="file"] {
-            width: 100%;
+        .box input[type="text"],
+        .box input[type="file"] {
+            width: calc(100% - 20px);
             padding: 10px;
             margin-bottom: 16px;
             box-sizing: border-box;
         }
 
-        input[type="submit"] {
+        .box input[type="submit"] {
             background-color: #4caf50;
             color: #fff;
             padding: 10px 15px;
@@ -55,21 +92,30 @@
             transition: background-color 0.3s;
         }
 
-        input[type="submit"]:hover {
+        .box input[type="submit"]:hover {
             background-color: #45a049;
+        }
+
+        @keyframes glitter {
+            0% { transform: translateX(-50%) scale(1); opacity: 0.5; }
+            50% { transform: translateX(-50%) scale(1.2); opacity: 1; }
+            100% { transform: translateX(-50%) scale(1); opacity: 0.5; }
         }
     </style>
 </head>
 <body>
-    <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
-        <h1>Wedding Images</h1>
-        <label for="name">Enter Name:</label>
-        <input type="text" name="name" required>
-        <br>
-        <label for="files">Choose Images:</label>
-        <input type="file" name="files[]" multiple>
-        <br>
-        <input type="submit" value="Upload">
-    </form>
+    <img src="{{ url_for('static', filename='images/wedding3.jpg') }}" alt="Background Image" class="background-img">
+    <h1></h1>
+    <br>
+    <br>
+    <br>
+    <div class="box">
+        <p>Upload your beautiful wedding images here!</p>
+        <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
+            <input type="text" name="name" required placeholder="ENTER YOUR NAME">
+            <input type="file" name="files[]" multiple>
+            <input type="submit" value="Upload">
+        </form>
+    </div>
 </body>
 </html>
